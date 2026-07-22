@@ -1,29 +1,21 @@
+.PHONY: setup dev format lint typecheck test lint-deps check-migration ci pre-prod stop
 
 setup:
 	uv run manage.py makemigrations
 	uv run manage.py migrate
-	uv run manage.py createsuperuser
 	uv run manage.py createcachetable
+	uv run manage.py createsuperuser
 
 dev:
 	uv run manage.py runserver 0.0.0.0:8000
 
-docker:
-	docker rm platform-questions-backend || true
-	docker run -d -p 8000:8000 platform-questions-backend
-
-pre-prod:
-	docker-compose -f docker/docker-compose.yaml build
-	docker-compose -f docker/docker-compose.yaml up
-
-stop:
-	docker-compose -f docker/docker-compose.yaml down
+format:
+	uv run ruff check . --fix
+	uv run black .
 
 lint:
-	uv run ruff check --fix
-
-format:
-	uv run black .
+	uv run ruff check .
+	uv run black --check .
 
 typecheck:
 	uv run mypy .
@@ -31,15 +23,16 @@ typecheck:
 test:
 	uv run pytest
 
-all-migrations:
-	uv run manage.py makemigrations
-	uv run manage.py migrate
-	uv run manage.py createcachetable
-
-check-migration:
-	uv run python manage.py makemigrations --check --dry-run
-
 lint-deps:
 	uv run deptry .
 
-ci: format lint typecheck test lint-deps check-migration
+check-migration:
+	uv run manage.py makemigrations --check --dry-run
+
+ci: lint typecheck test lint-deps check-migration
+
+pre-prod:
+	docker compose -f docker/docker-compose.yaml up --build
+
+stop:
+	docker compose -f docker/docker-compose.yaml down

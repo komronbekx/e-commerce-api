@@ -21,7 +21,7 @@ typecheck:
 	uv run mypy .
 
 test:
-	uv run pytest
+	uv run manage.py test
 
 lint-deps:
 	uv run deptry .

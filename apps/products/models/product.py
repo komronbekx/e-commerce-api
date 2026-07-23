@@ -33,6 +33,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="products")
     is_primary = models.BooleanField(default=False)

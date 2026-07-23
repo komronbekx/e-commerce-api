@@ -29,11 +29,7 @@ class ProductRepository:
         Product.objects.filter(id=product_id).delete()
 
     def add_image(
-            self,
-            product: Product,
-            image_file: File,
-            is_primary: bool,
-            order: int = 0
+        self, product: Product, image_file: File, is_primary: bool, order: int = 0
     ) -> ProductImage:
         return ProductImage.objects.create(
             product=product, image=image_file, is_primary=is_primary, order=order

@@ -2,6 +2,7 @@ from django.db.models import QuerySet
 from ..models import Category
 import uuid
 
+
 class CategoryRepository:
 
     def get_all_categories(self) -> QuerySet[Category]:

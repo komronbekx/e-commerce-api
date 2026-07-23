@@ -35,6 +35,9 @@ class ProductRepository:
             product=product, image=image_file, is_primary=is_primary, order=order
         )
 
+    def clear_primary_image(self, product_id: uuid.UUID) -> int:
+        return ProductImage.objects.filter(product_id=product_id).update(is_primary=False)
+
     def delete_image(self, image_id: uuid.UUID) -> None:
         ProductImage.objects.filter(id=image_id).delete()
 

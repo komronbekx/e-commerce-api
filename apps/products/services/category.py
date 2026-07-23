@@ -1,7 +1,7 @@
 import uuid
 from apps.products.models import Category
 from django.db.models import QuerySet
-from ..exceptions.category_not_found import CategoryNotFound
+from ..exceptions import CategoryNotFound
 from ..repositories import CategoryRepository
 
 

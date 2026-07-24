@@ -1,5 +1,5 @@
 from rest_framework.status import HTTP_404_NOT_FOUND
-from .domain_error import DomainError
+from apps.core.exceptions.domain_error import DomainError
 
 
 class ProductNotFound(DomainError):

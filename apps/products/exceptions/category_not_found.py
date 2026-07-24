@@ -1,5 +1,5 @@
 from rest_framework import status
-from .domain_error import DomainError
+from apps.core.exceptions.domain_error import DomainError
 
 
 class CategoryNotFound(DomainError):

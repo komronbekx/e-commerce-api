@@ -1,4 +1,4 @@
-from apps.products.exceptions import DomainError
+from apps.core.exceptions import DomainError
 from rest_framework import status
 
 

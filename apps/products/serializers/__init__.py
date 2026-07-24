@@ -1,4 +1,4 @@
 from .category import CategorySerializer
-from .product import ProductSerializer
+from .product import ProductSerializer, ProductImageSerializer
 
-__all__ = ["CategorySerializer", "ProductSerializer"]
+__all__ = ["CategorySerializer", "ProductImageSerializer", "ProductSerializer"]

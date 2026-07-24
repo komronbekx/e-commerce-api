@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from ..serializers import CategorySerializer
 from ..container import get_category_service
 from ..services import CategoryService
-from ..models import Category
 from drf_spectacular.utils import extend_schema
 
 
@@ -27,8 +26,7 @@ class CategoryView(APIView):
     def post(self, request: Request) -> Response:
         serializer = CategorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        category = Category(**serializer.validated_data)
-        created_categories = self.service.create_category(category)
+        created_categories = self.service.create_category(serializer.validated_data)
         return Response(
             CategorySerializer(created_categories).data, status=status.HTTP_201_CREATED
         )

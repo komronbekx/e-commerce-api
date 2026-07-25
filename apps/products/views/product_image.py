@@ -6,6 +6,11 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from ..swagger.product import (
+    list_product_images_schema,
+    create_product_images_schema,
+    delete_product_images_schema,
+)
 
 
 class ProductImageView(APIView):
@@ -15,11 +20,13 @@ class ProductImageView(APIView):
         super().__init__(**kwargs)
         self.service = get_product_service()
 
+    @list_product_images_schema
     def get(self, request: Request, product_id: uuid.UUID) -> Response:
         images = self.service.get_product_images(product_id)
         serializer = ProductImageSerializer(images, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @create_product_images_schema
     def post(self, request: Request, product_id: uuid.UUID) -> Response:
         image_file = request.FILES.get("image")
         if not image_file:
@@ -48,6 +55,7 @@ class ProductImageDetailView(APIView):
         super().__init__(**kwargs)
         self.service = get_product_service()
 
+    @delete_product_images_schema
     def delete(
         self, request: Request, product_id: uuid.UUID, image_id: uuid.UUID
     ) -> Response:

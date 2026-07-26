@@ -9,6 +9,7 @@ dependencies = [
     "djangorestframework>=3.17.1",
     "djangorestframework-simplejwt>=5.5.1",
     "drf-spectacular>=0.30.0",
+    "pillow>=12.3.0",
     "psycopg2-binary>=2.9.12",
     "python-dotenv>=1.2.2",
 ]
@@ -82,6 +83,7 @@ DEP002 = [
     "djangorestframework-simplejwt",
     "gunicorn",
     "psycopg2-binary",
+    "pillow",
 ]
 
 DEP004 = [

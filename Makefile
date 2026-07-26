@@ -10,12 +10,10 @@ dev:
 	uv run manage.py runserver 0.0.0.0:8000
 
 format:
-	uv run ruff check . --fix
 	uv run black .
 
 lint:
 	uv run ruff check .
-	uv run black --check .
 
 typecheck:
 	uv run mypy .

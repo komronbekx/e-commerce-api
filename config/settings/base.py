@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     "apps.payments.apps.PaymentsConfig",
     "apps.products.apps.ProductsConfig",
     "apps.users.apps.UsersConfig",
+    "apps.core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -78,3 +80,49 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+REST_FRAMEWORK = {
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+    # ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    # "DEFAULT_FILTER_BACKENDS": [
+    #     "django_filters.rest_framework.DjangoFilterBackend",
+    # ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_RATES": {
+        "login": "5/minute",
+        "register": "3/minute",
+        "send": "10/minute",
+        "bulk-send": "3/minute",
+    },
+    "EXCEPTION_HANDLER": "apps.core.exception_handlers.custom_exception_handler",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "E-Commerce API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,
+        "displayRequestDuration": True,
+        "filter": True,
+        "tryItOutEnabled": True,
+    },
+}
+
+SIMPLE_JWT = {
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+SWAGGER_URL = "/api/schema/swagger-ui/"

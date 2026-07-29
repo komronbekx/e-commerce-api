@@ -9,6 +9,8 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+AUTH_USER_MODEL = "users.User"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

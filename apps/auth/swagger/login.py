@@ -7,5 +7,3 @@ login_schema_swagger = extend_schema(
     responses={200: LoginSerializer},
     tags=["authentication"],
 )
-
-

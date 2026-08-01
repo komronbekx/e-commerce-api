@@ -21,5 +21,7 @@ class RegisterView(views.APIView):
     def post(self, request: Request) -> Response:
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        result: RegisterResponseDTO = self.service.register_email(serializer.validated_data)
+        result: RegisterResponseDTO = self.service.register_email(
+            serializer.validated_data
+        )
         return Response(result, status=status.HTTP_201_CREATED)

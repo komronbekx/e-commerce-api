@@ -49,6 +49,7 @@ ignore = ["D100", "D101", "RUF001"]
 "apps/**/views/*.py" = ["RUF012"]
 "apps/**/views.py" = ["RUF012"]
 "apps/**/tests/*.py" = ["ANN201", "ANN001"]
+"*/models/*.py" = ["RUF012"]
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]

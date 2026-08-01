@@ -9,6 +9,8 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+AUTH_USER_MODEL = "users.User"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -18,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "drf_spectacular",
     "apps.auth.apps.AuthConfig",
     "apps.orders.apps.OrdersConfig",

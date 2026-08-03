@@ -22,6 +22,9 @@ class CartRepository:
     def get_items(self, cart_id: uuid.UUID) -> QuerySet[CartItem]:
         return CartItem.objects.filter(cart_id=cart_id).select_related("product")
 
+    def get_item_by_id(self, item_id: uuid.UUID) -> CartItem | None:
+        return CartItem.objects.filter(id=item_id).first()
+
     def add_item(
         self, cart_id: uuid.UUID, product_id: uuid.UUID, quantity: int
     ) -> CartItem:

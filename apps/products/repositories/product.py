@@ -1,4 +1,5 @@
 from django.core.files import File
+from django.db import models
 from django.db.models import QuerySet
 from ..models import Product, ProductImage
 import uuid
@@ -25,8 +26,26 @@ class ProductRepository:
         product.save()
         return product
 
-    def delete(self, product_id: uuid.UUID) -> None:
-        Product.objects.filter(id=product_id).delete()
+    def delete(self, product_id: uuid.UUID) -> bool:
+        deleted_count, _ = Product.objects.filter(id=product_id).delete()
+        return deleted_count > 0
+
+    def get_product_for_update(self, product_id: uuid.UUID) -> Product | None:
+        """
+        Mahsulotni DB darajasida 'qulflab' oladi (SELECT FOR UPDATE).
+        Faqat tranzaksiya ichida chaqirilishi kerak!
+        """
+        return Product.objects.select_for_update().filter(id=product_id).first()
+
+    def decrease_stock(self, product_id: uuid.UUID, quantity: int) -> bool:
+        """
+        Stock'ni xavfsiz kamaytiradi — faqat yetarli miqdor bo'lsa.
+        Atomic UPDATE orqali, race condition'siz.
+        """
+        updated_count = Product.objects.filter(id=product_id, stock__gte=quantity).update(
+            stock=models.F("stock") - quantity
+        )
+        return updated_count > 0
 
     def add_image(
         self, product: Product, image_file: File, is_primary: bool, order: int = 0
@@ -38,8 +57,9 @@ class ProductRepository:
     def clear_primary_image(self, product_id: uuid.UUID) -> int:
         return ProductImage.objects.filter(product_id=product_id).update(is_primary=False)
 
-    def delete_image(self, image_id: uuid.UUID) -> None:
-        ProductImage.objects.filter(id=image_id).delete()
+    def delete_image(self, image_id: uuid.UUID) -> bool:
+        deleted_count, _ = ProductImage.objects.filter(id=image_id).delete()
+        return deleted_count > 0
 
     def get_images(self, product_id: uuid.UUID) -> QuerySet[ProductImage]:
         return ProductImage.objects.filter(product_id=product_id).order_by("order")

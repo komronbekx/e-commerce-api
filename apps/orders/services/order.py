@@ -13,10 +13,10 @@ from ..repositories import OrderRepository
 
 class OrderService:
     def __init__(
-            self,
-            repo: OrderRepository,
-            product_repo: ProductRepository,
-            cart_service: CartService,
+        self,
+        repo: OrderRepository,
+        product_repo: ProductRepository,
+        cart_service: CartService,
     ) -> None:
         self.repo = repo
         self.product_repo = product_repo

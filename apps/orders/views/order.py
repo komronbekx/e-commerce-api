@@ -7,7 +7,11 @@ from apps.orders.serializers import (
     UpdateOrderStatusSerializer,
 )
 from apps.orders.services import OrderService
-from apps.orders.swagger.schemas import list_orders_schema, get_order_schema, update_order_status_schema
+from apps.orders.swagger.schemas import (
+    list_orders_schema,
+    get_order_schema,
+    update_order_status_schema,
+)
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.request import Request

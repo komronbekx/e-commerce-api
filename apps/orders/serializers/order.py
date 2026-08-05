@@ -11,7 +11,7 @@ class OrderListSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True, read_only=True)
+    order_items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
@@ -20,7 +20,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "status",
             "total_price",
             "shipping_address",
-            "items",
+            "order_items",
             "created_at",
             "updated_at",
         )
@@ -28,7 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "id",
             "status",
             "total_price",
-            "items",
+            "order_items",
             "created_at",
             "updated_at",
         )

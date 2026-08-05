@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from ..models import Category
 from ..serializers import CategorySerializer
 from ..container import get_category_service
 from ..services import CategoryService
@@ -32,7 +33,8 @@ class CategoryView(APIView):
     def post(self, request: Request) -> Response:
         serializer = CategorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        created_categories = self.service.create_category(serializer.validated_data)
+        category = Category(**serializer.validated_data)
+        created_categories = self.service.create_category(category)
         return Response(
             CategorySerializer(created_categories).data, status=status.HTTP_201_CREATED
         )

@@ -1,5 +1,8 @@
-class InvalidCredentials(Exception):
-    """Invalid credentials exception"""
+from apps.core.exceptions import DomainError
+from rest_framework import status
 
-    def __init__(self, message: str = "Invalid Credentials") -> None:
-        super().__init__(message)
+
+class InvalidCredentials(DomainError):
+    http_status = status.HTTP_401_UNAUTHORIZED
+    code: str = "invalid_credentials"
+    title: str = "Invalid Credentials"

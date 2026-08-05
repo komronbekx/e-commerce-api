@@ -7,6 +7,7 @@ from apps.orders.serializers import (
     UpdateOrderStatusSerializer,
 )
 from apps.orders.services import OrderService
+from apps.orders.swagger.schemas import list_orders_schema, get_order_schema, update_order_status_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.request import Request
@@ -22,6 +23,7 @@ class OrderListView(APIView):
         super().__init__(**kwargs)
         self.service = get_order_service()
 
+    @list_orders_schema
     def get(self, request: Request) -> Response:
         orders = self.service.get_user_orders(request.user)  # type: ignore
         serializer = OrderListSerializer(orders, many=True)
@@ -40,11 +42,13 @@ class OrderDetailView(APIView):
             return [IsAdminUser()]
         return [IsAuthenticated()]
 
+    @get_order_schema
     def get(self, request: Request, order_id: uuid.UUID) -> Response:
         order = self.service.get_order_by_id(order_id)
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @update_order_status_schema
     def patch(self, request: Request, order_id: uuid.UUID) -> Response:
         order = self.service.get_order_by_id(order_id)
         serializer = UpdateOrderStatusSerializer(data=request.data)

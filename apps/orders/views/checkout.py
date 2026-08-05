@@ -1,3 +1,4 @@
+from apps.orders.swagger.schemas import checkout_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -17,6 +18,7 @@ class CheckoutView(APIView):
         super().__init__(**kwargs)
         self.service = get_order_service()
 
+    @checkout_schema
     def post(self, request: Request) -> Response:
         serializer = CheckoutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

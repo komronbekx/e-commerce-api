@@ -86,6 +86,7 @@ DEP002 = [
     "gunicorn",
     "psycopg2-binary",
     "pillow",
+    "django-cors-headers"
 ]
 
 DEP004 = [

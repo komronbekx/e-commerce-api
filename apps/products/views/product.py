@@ -25,7 +25,7 @@ class ProductView(APIView):
     @list_products_schema
     def get(self, request: Request) -> Response:
         products = self.service.get_products()
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={"request": request})
         return Response(serializer.data)
 
     @create_products_schema
@@ -34,7 +34,8 @@ class ProductView(APIView):
         serializer.is_valid(raise_exception=True)
         created_product = self.service.create_product(serializer.validated_data)
         return Response(
-            ProductSerializer(created_product).data, status=status.HTTP_201_CREATED
+            ProductSerializer(created_product, context={"request": request}).data,
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -48,7 +49,7 @@ class ProductDetailView(APIView):
     @get_products_schema
     def get(self, request: Request, product_id: uuid.UUID) -> Response:
         product = self.service.get_product(product_id)
-        serializer = ProductSerializer(product)
+        serializer = ProductSerializer(product, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @update_products_schema
@@ -59,7 +60,8 @@ class ProductDetailView(APIView):
             product_id, serializer.validated_data
         )
         return Response(
-            ProductSerializer(updated_product).data, status=status.HTTP_200_OK
+            ProductSerializer(updated_product, context={"request": request}).data,
+            status=status.HTTP_200_OK,
         )
 
     @delete_products_schema

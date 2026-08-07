@@ -23,7 +23,9 @@ class ProductImageView(APIView):
     @list_product_images_schema
     def get(self, request: Request, product_id: uuid.UUID) -> Response:
         images = self.service.get_product_images(product_id)
-        serializer = ProductImageSerializer(images, many=True)
+        serializer = ProductImageSerializer(
+            images, many=True, context={"request": request}
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @create_product_images_schema
@@ -44,7 +46,8 @@ class ProductImageView(APIView):
             order=order,
         )
         return Response(
-            ProductImageSerializer(created_image).data, status=status.HTTP_201_CREATED
+            ProductImageSerializer(created_image, context={"request": request}).data,
+            status=status.HTTP_201_CREATED,
         )
 
 

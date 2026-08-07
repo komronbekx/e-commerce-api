@@ -12,6 +12,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 AUTH_USER_MODEL = "users.User"
 
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -138,3 +141,32 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SWAGGER_URL = "/api/schema/swagger-ui/"
+
+UNFOLD = {
+    "SITE_TITLE": "Shoply Admin",
+    "SITE_HEADER": "Shoply",
+    "SITE_SYMBOL": "storefront",
+    "COLORS": {
+        "primary": {
+            "50": "255 247 237",
+            "100": "255 237 213",
+            "200": "254 215 170",
+            "300": "253 186 116",
+            "400": "251 146 60",
+            "500": "249 115 22",
+            "600": "234 88 12",
+            "700": "194 65 12",
+            "800": "154 52 18",
+            "900": "124 45 18",
+            "950": "67 20 7",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+    },
+}
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
